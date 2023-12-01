@@ -16,11 +16,11 @@ body {
 .console {
 	background-color: black;
 	color: white;
-	text-align:center;
+	text-align: center;
 	padding: 1px;
-	border-bottom-right-radius:10px;
-	border-bottom-left-radius:10px;
-	font-weight:600;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	font-weight: 600;
 }
 .console a {
 	color: white;
@@ -317,6 +317,22 @@ article .titre {
 .btn-red:active {
 	transform: scaleX(0.8);
 }
+
+@media screen and (max-width: 1500px) {
+	.calendar {
+		left: 20%;
+	}
+}
+@media screen and (max-width: 1050px) {
+	.calendar {
+		left: 50px;
+	}
+}
+@media screen and (max-width: 880px) {
+	.calendar {
+		left: 0px;
+	}
+}
 @media screen and (max-width: 690px) {
 	body .focus {
 		flex-direction: column;
@@ -337,5 +353,28 @@ article .titre {
 
 	.focus .fiche_focus {
 		margin-bottom: 15px;
+	}
+	.modal_content {
+		width: 300px;
+	}
+	.btn {
+		width: 37px;
+	}
+
+	td {
+		width: 1px;
+		height: 1px;
+		padding: 1px;
+	}
+	.joursSemaine {
+		border: 1px solid black;
+		width: 1px;
+		height: 1px;
+		padding: 1px;
+	}
+	.table {
+		display: flex;
+		flex-direction:column;
+		flex-wrap:wrap;
 	}
 }
