@@ -84,14 +84,15 @@ let cpt = 0;
 let nombreDeMois = diapoContainer.childElementCount;
 // TOURNER A GAUCHE
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'arrow left-arrow') {
+	if (event.target.classList.contains('fa-angles-left')) {
 		cpt = turnLeft(cpt);
 	}
 });
 
 // TOURNER A DROITE
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'arrow right-arrow') {
+	if (event.target.classList.contains('fa-angles-right')) {
+		console.log("coucou");
 		cpt = turnRight(cpt, nombreDeMois);
 	}
 });
