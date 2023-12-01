@@ -327,13 +327,8 @@ article .titre {
 	.calendar {
 		left: 50px;
 	}
-}
+
 @media screen and (max-width: 880px) {
-	.calendar {
-		left: 0px;
-	}
-}
-@media screen and (max-width: 690px) {
 	body .focus {
 		flex-direction: column;
 		width: 90%;
@@ -357,9 +352,6 @@ article .titre {
 	.modal_content {
 		width: 300px;
 	}
-	.btn {
-		width: 37px;
-	}
 
 	td {
 		width: 1px;
@@ -374,7 +366,28 @@ article .titre {
 	}
 	.table {
 		display: flex;
-		flex-direction:column;
-		flex-wrap:wrap;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+	.modal_content {
+		overflow: scroll;
+		height: 475px;
+	}
+	#diapo_container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	body .fa-angles-left, body .fa-angles-right{
+		display:none;
+	}
+	.when{
+		left:0px;
+	}
+	.btn{
+		width: 74px;
+	}
+	.calendar{
+		left:5px;
 	}
 }
