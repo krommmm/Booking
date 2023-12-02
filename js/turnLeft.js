@@ -3,7 +3,6 @@ const turnLeft = (cpt) => {
 		return cpt;
 	}
 	cpt--;
-	console.log(cpt);
 
 		let largeur = -800;
 		document.getElementById(

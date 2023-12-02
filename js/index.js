@@ -11,20 +11,19 @@ import reglageAgenda from './reglageAgenda';
 import getUrl from './getUrl';
 import afficherLogementFocus from './AfficherLogementFocus';
 import logements from './logements';
-import getLogementsDisponibles from "./getLogementsDisponibles";
+import getLogementsDisponibles from './getLogementsDisponibles';
 
 //peut être mettre isSearched dans le ls
-let isSearched = false; 
+let isSearched = false;
 //Transfert des logements dans le localStorage si le localStorage est vide
-let localStorageLogements = JSON.parse(localStorage.getItem("logements"));
-if(localStorageLogements===undefined || localStorageLogements===null){
-localStorage.setItem("logements",JSON.stringify(logements));
+let localStorageLogements = JSON.parse(localStorage.getItem('logements'));
+if (localStorageLogements === undefined || localStorageLogements === null) {
+	localStorage.setItem('logements', JSON.stringify(logements));
 }
 
 if (document.title === 'Accueil') {
-	afficherLogements(logements,isSearched);
+	afficherLogements(logements, isSearched);
 }
-console.log(localStorageLogements);
 
 // OBTENTION DE LA DATE
 let dateActuelle = obtenirDateActuelle();
@@ -71,7 +70,7 @@ document.querySelector('.modal_content').appendChild(diapoContainer);
 /*---------- GESTION DES CLICKS-------------*/
 // AFFICHER OU CACHER LE CALENDRIER
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('id') === 'btn-calendar') {
+	if (event.target.id === 'btn-calendar') {
 		let modal = document.querySelector('.modal');
 		document.querySelector('.calendar').classList.add('bottom');
 		modal.classList[1] === 'hidden'
@@ -92,7 +91,6 @@ document.addEventListener('click', (event) => {
 // TOURNER A DROITE
 document.addEventListener('click', (event) => {
 	if (event.target.classList.contains('fa-angles-right')) {
-		console.log("coucou");
 		cpt = turnRight(cpt, nombreDeMois);
 	}
 });
@@ -102,52 +100,53 @@ let arrivee = false;
 let startTime = [0, 0, 0]; // date-month-year
 let endTime = [32, 13, 3000];
 
-
-
 // RECHERCHE DANS LE CALENDRIER SELON PLAGE
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'joursSemaine') {
+	if (event.target.classList.contains('joursSemaine')) {
 		let container = event.target.closest('table').parentElement;
 		let date = parseInt(event.target.textContent); // ex : 1 2 3
 		let year = parseInt(container.querySelector('.paraYear').textContent);
 		let month = container.querySelector('.paraMonth').textContent;
 		month = convertMoisLettreEnInt(newYear, month);
+
 		if (depart) {
 			let classDepart = 'choosenOneDepart';
 			let classArrivee = 'choosenOneArrivee';
+			let isDepart = true;
 			startTime = reglageAgenda(
+				isDepart,
 				event,
+				startTime,
 				endTime,
 				classDepart,
 				classArrivee,
-				startTime,
 				date,
 				month,
 				year
 			);
-			console.log(`depart time avant rechercher : ${startTime}`);
 		}
 		if (arrivee) {
 			let classDepart = 'choosenOneDepart';
 			let classArrivee = 'choosenOneArrivee';
+			let isDepart = false;
 			endTime = reglageAgenda(
+				isDepart,
 				event,
+				startTime,
 				endTime,
 				classArrivee,
 				classDepart,
-				startTime,
 				date,
 				month,
 				year
 			);
-			console.log(`endTime avant rechercher : ${endTime}`);
 		}
 	}
 });
 
 // RECHERCHE DEPART
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'start btn') {
+	if (event.target.classList.contains('start')) {
 		depart = !depart;
 		arrivee = false;
 
@@ -161,10 +160,11 @@ document.addEventListener('click', (event) => {
 
 // RECHERCHE ARRIVEE
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'end btn') {
-		arrivee = !arrivee;
+	if (event.target.classList.contains('end')) {
+		arrivee = true;
 		depart = false;
-		document.querySelector('.start').style.backgroundColor = 'rgb(9, 1, 109)';
+		document.querySelector('.start').style.backgroundColor =
+			'rgb(9, 1, 109)';
 
 		let btnEnd = document.querySelector('.end');
 		arrivee
@@ -175,61 +175,84 @@ document.addEventListener('click', (event) => {
 
 // RECHERCHE
 document.addEventListener('click', (event) => {
-	if (event.target.getAttribute('class') === 'search btn') {
-		if(JSON.stringify(startTime)===JSON.stringify([0,0,0])){
-			console.log("tu n'as pas encore choisit");
-			alert("choisir une date de départ");
+	if (event.target.classList.contains('search')) {
+		if (JSON.stringify(startTime) === JSON.stringify([0, 0, 0])) {
+			alert('choisir une date de départ');
 			return;
 		}
-		if(JSON.stringify(endTime) == JSON.stringify([32,13,3000])){
+		if (JSON.stringify(endTime) == JSON.stringify([32, 13, 3000])) {
 			alert("Choisir une date d'arrivée");
 			return;
 		}
-		let date = {start:startTime,end:endTime};
-		localStorage.setItem("date",JSON.stringify(date));
+		let date = { start: startTime, end: endTime };
+		localStorage.setItem('date', JSON.stringify(date));
 
 		isSearched = true;
-		let storageContent = JSON.parse(localStorage.getItem("logements"));
-		let logementsDisponibles = getLogementsDisponibles(storageContent,startTime,endTime);
-		
+		let storageContent = JSON.parse(localStorage.getItem('logements'));
+		let logementsDisponibles = getLogementsDisponibles(
+			storageContent,
+			startTime,
+			endTime
+		);
+
 		// chercher les logements qui sont disponibles
-		afficherLogements(logementsDisponibles,isSearched);
+		afficherLogements(logementsDisponibles, isSearched);
+		document.querySelector('.modal').classList.add('hidden');
 	}
 });
 
 if (document.title === 'Focus') {
 	let id = getUrl();
-	let objectDate = JSON.parse(localStorage.getItem("date"));
-	startTime=objectDate.start;
+	let objectDate = JSON.parse(localStorage.getItem('date'));
+	startTime = objectDate.start;
 	endTime = objectDate.end;
-	afficherLogementFocus(logements, id,startTime,endTime);
-	document.addEventListener("click",(event)=>{
-		if(event.target.getAttribute("id")==="btn-louer"){
-			if(JSON.stringify(startTime)===JSON.stringify([0,0,0])){
-				console.log("tu n'as pas encore choisit");
-				alert("choisir une date de départ");
+	afficherLogementFocus(logements, id, startTime, endTime);
+	document.addEventListener('click', (event) => {
+		if (event.target.id === 'btn-louer') {
+			if (JSON.stringify(startTime) === JSON.stringify([0, 0, 0])) {
+				alert('choisir une date de départ');
 				return;
 			}
-			if(JSON.stringify(endTime) == JSON.stringify([32,13,3000])){
+			if (JSON.stringify(endTime) == JSON.stringify([32, 13, 3000])) {
 				alert("Choisir une date d'arrivée");
 				return;
 			}
-			let localStorageLogements = JSON.parse(localStorage.getItem("logements"));
-			for(let i=0;i<localStorageLogements.length;i++){
-				if(localStorageLogements[i].id===id){
-					localStorageLogements[i].reservation.push({arrivee:[{date:startTime[0],month:startTime[1],year:startTime[2]}],depart:[{date:endTime[0],month:endTime[1],year:endTime[2]}]})
-					startTime = [0, 0, 0]; 
+			let localStorageLogements = JSON.parse(
+				localStorage.getItem('logements')
+			);
+			for (let i = 0; i < localStorageLogements.length; i++) {
+				if (localStorageLogements[i].id === id) {
+					localStorageLogements[i].reservation.push({
+						arrivee: [
+							{
+								date: startTime[0],
+								month: startTime[1],
+								year: startTime[2],
+							},
+						],
+						depart: [
+							{
+								date: endTime[0],
+								month: endTime[1],
+								year: endTime[2],
+							},
+						],
+					});
+					startTime = [0, 0, 0];
 					endTime = [32, 13, 3000];
-					window.location.href="../index.html";
+					window.location.href = '../index.html';
 				}
 			}
-			localStorage.setItem("logements",JSON.stringify(localStorageLogements));
+			localStorage.setItem(
+				'logements',
+				JSON.stringify(localStorageLogements)
+			);
 		}
 	});
 }
 
-document.addEventListener("click",(event)=>{
-	if(event.target.getAttribute("class")==="close-calendar btn-red"){
-		document.querySelector(".modal").classList.add("hidden");
+document.addEventListener('click', (event) => {
+	if (event.target.classList.contains('close-calendar')) {
+		document.querySelector('.modal').classList.add('hidden');
 	}
 });

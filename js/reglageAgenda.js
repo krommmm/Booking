@@ -1,21 +1,37 @@
 import comparaisonDate from './comparaisonDate';
 
-//importer comparaisonDate()
+// On reçoit les startTime et endTime précédent + la date(date/month/year) du event.target
 const reglageAgenda = (
+	isDepart,
 	event,
-	arriveeTime,
+	startTime,
+	endTime,
 	classDepart,
 	classArrivee,
-	departTime,
 	date,
 	month,
 	year
 ) => {
-	departTime = [date, month, year];
+	let ancienneDate;
+	if (isDepart) {
+		ancienneDate = startTime; // au cas où il y ai une erreur
+		// la date cliqué remplace la variable startTime
+		startTime = [date, month, year];
+	} else {
+		ancienneDate = endTime; // au cas où il y ai une erreur
+		endTime = [date, month, year];
+	}
 
-	//Un seul choix de départ
+	// Comparaison des 2 dates
 	let isDepartBeforeArrivee = false;
-	isDepartBeforeArrivee = comparaisonDate(departTime, arriveeTime);
+
+	isDepartBeforeArrivee = comparaisonDate(startTime, endTime);
+	if (!isDepartBeforeArrivee && isDepart) {
+		startTime = ancienneDate;
+	}
+	if (!isDepartBeforeArrivee && !isDepart) {
+		endTime = ancienneDate;
+	}
 	if (isDepartBeforeArrivee) {
 		document.querySelectorAll('td').forEach((td) => {
 			td.classList.remove(classDepart);
@@ -31,9 +47,14 @@ const reglageAgenda = (
 	) {
 		document.querySelector('.search').style.backgroundColor = 'green';
 	} else {
-		document.querySelector('.search').style.backgroundColor = 'rgb(9, 1, 109)';
+		document.querySelector('.search').style.backgroundColor =
+			'rgb(9, 1, 109)';
 	}
-	return departTime;
+	if (isDepart) {
+		return startTime;
+	} else {
+		return endTime;
+	}
 };
 
 export default reglageAgenda;

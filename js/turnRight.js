@@ -1,6 +1,5 @@
 const turnRight = (cpt,nombreDeMois) => {
 	cpt++;
-	console.log(cpt);
 	if(cpt===(nombreDeMois/2)){
 		return cpt-1;
 	}

@@ -1,9 +1,6 @@
 const afficherLogementFocus = (logements, id,startTime,endTime) => {
 	let array = [...logements];
 
-console.log(startTime);
-console.log(endTime);
-
 const calculNbJoursEntre2Dates = (startTime,endTime) => {
     let date1 = new Date(startTime[2],startTime[1]-1,startTime[0]);  //année, mois, jour
     let date2 = new Date(endTime[2],endTime[1]-1,endTime[0]);
