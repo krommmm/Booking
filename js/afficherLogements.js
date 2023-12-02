@@ -7,7 +7,7 @@ const afficherLogements = (array, isSearched) => {
 			total += `
      
     	<article>
-		<img class="logements_img" src="../images/${logements[i].imageUrl}.jpg" alt="" />
+		<img class="logements_img blur" src="../images/${logements[i].imageUrl}.jpg" alt="" />
 		<p class="titre">${logements[i].name}</p>
 		<p class="type">${logements[i].type}</p>
 		<p class="prix"><span class="gras">${logements[i].prix} €</span>&nbsp;par nuit</p>

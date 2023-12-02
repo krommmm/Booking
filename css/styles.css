@@ -168,11 +168,12 @@ td {
 	display: flex;
 	justify-content: center;
 	margin-top: 30px;
+	width: 100%;
 }
 .photo_zone {
-	width: 90%;
+	width: 100%;
 	display: flex;
-	flex-wrap: wrap;
+	justify-content:center;
 }
 .photo_zone a {
 	text-decoration: none;
@@ -318,6 +319,24 @@ article .titre {
 	transform: scaleX(0.8);
 }
 
+.blur{
+	filter: blur(3px);
+}
+
+article .titre{
+	margin:0px;
+	margin-top:1px;
+}
+article .type{
+	margin:0px;
+	margin-top:1px;
+}
+article .prix{
+	margin:0px;
+	margin-top:1px;
+}
+
+
 @media screen and (max-width: 1500px) {
 	.calendar {
 		left: 20%;
@@ -327,12 +346,23 @@ article .titre {
 	.calendar {
 		left: 50px;
 	}
+}
+@media screen and (max-width: 1000px) {
+	.photo_zone {
+		width: 66%;
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	  }
+}
 
 @media screen and (max-width: 880px) {
 	body .focus {
 		flex-direction: column;
 		width: 90%;
 	}
+	
+	
 	.focus .container_principal {
 		display: flex;
 		flex-direction: column;
@@ -346,6 +376,38 @@ article .titre {
 		width: 50%;
 	}
 
+	body .start{
+		position:fixed;
+		top:3px;
+		left: 2px;
+		margin:0px;
+		margin-top:5px;
+		margin-left: 5px;
+	}
+	body .end{
+		position:fixed;
+		top:3px;
+		left: 83px;
+		margin:0px;
+		margin-top:5px;
+		margin-left: 5px;
+	}
+	body .search{
+		position:fixed;
+		top:3px;
+		left: 166px;
+		margin:0px;
+		margin-top:5px;
+		margin-left: 5px;
+	}
+	body .close-calendar{
+		position:fixed;
+		top:3px;
+		right: 10px;
+		margin:0px;
+		margin-top:5px;
+		
+	}
 	.focus .fiche_focus {
 		margin-bottom: 15px;
 	}
@@ -388,6 +450,22 @@ article .titre {
 		width: 74px;
 	}
 	.calendar{
-		left:5px;
+		left:25vw;
+	}
+}
+@media screen and (max-width: 500px) {
+	.calendar{
+		left:10vw;
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.calendar{
+		left:10px;
+	}
+}
+@media screen and (max-width: 333px) {
+	.calendar{
+		left:0px;
 	}
 }
