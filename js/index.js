@@ -10,9 +10,9 @@ import reglageAgenda from './fonctions/components/reglageAgenda';
 
 import logements from './data/logements';
 import getLogementsDisponibles from './fonctions/utils/getLogementsDisponibles';
-import getPageName from "../js/fonctions/utils/getPageName";
-import accueil from "./pages/accueil";
-import focus from "./pages/focus";
+import getPageName from '../js/fonctions/utils/getPageName';
+import accueil from './pages/accueil';
+import focus from './pages/focus';
 
 let isSearched = false;
 //Transfert des logements dans le localStorage si le localStorage est vide
@@ -27,22 +27,19 @@ let endTime = [32, 13, 3000];
 
 // ROUTAGE
 let pageName = getPageName();
-console.log(pageName);
 switch (pageName) {
 	case 'index':
-		console.log(pageName);
 		accueil();
 		break;
 	case '':
 		accueil();
 		break;
 	case 'focus':
-		focus(startTime,endTime,logements);
+		focus(startTime, endTime, logements);
 		break;
 	default:
 		console.error('Page introuvable');
 }
-
 
 // OBTENTION DE LA DATE
 let dateActuelle = obtenirDateActuelle();
@@ -113,8 +110,6 @@ document.addEventListener('click', (event) => {
 		cpt = turnRight(cpt, nombreDeMois);
 	}
 });
-
-
 
 // RECHERCHE DANS LE CALENDRIER SELON PLAGE
 document.addEventListener('click', (event) => {
@@ -216,8 +211,6 @@ document.addEventListener('click', (event) => {
 		document.querySelector('.modal').classList.add('hidden');
 	}
 });
-
-
 
 document.addEventListener('click', (event) => {
 	if (event.target.classList.contains('close-calendar')) {
