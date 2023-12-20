@@ -1,3 +1,4 @@
+// IMPORTATIONS
 import afficherLogements from './fonctions/components/afficherLogements';
 import obtenirDateActuelle from './fonctions/utils/obtenirDateActuelle';
 import Year from './class/year';
@@ -14,6 +15,7 @@ import getPageName from '../js/fonctions/utils/getPageName';
 import accueil from './pages/accueil';
 import focus from './pages/focus';
 
+// VARIABLES GLOBALES
 let isSearched = false;
 //Transfert des logements dans le localStorage si le localStorage est vide
 let localStorageLogements = JSON.parse(localStorage.getItem('logements'));
