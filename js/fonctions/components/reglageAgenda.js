@@ -1,4 +1,4 @@
-import comparaisonDate from './comparaisonDate';
+import comparaisonDate from '../utils/comparaisonDate';
 
 // On reçoit les startTime et endTime précédent + la date(date/month/year) du event.target
 const reglageAgenda = (

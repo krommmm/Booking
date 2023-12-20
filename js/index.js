@@ -1,29 +1,48 @@
-import shuffleArray from './shuffleArray';
-import afficherLogements from './afficherLogements';
-import obtenirDateActuelle from './obtenirDateActuelle';
-import Year from './year';
-import displayCalendar from './displayCalendar';
-import convertMoisEnLettre from './convertMoisEnLettre';
-import turnLeft from './turnLeft';
-import turnRight from './turnRight';
-import convertMoisLettreEnInt from './convertMoisLettreEnInt';
-import reglageAgenda from './reglageAgenda';
-import getUrl from './getUrl';
-import afficherLogementFocus from './AfficherLogementFocus';
-import logements from './logements';
-import getLogementsDisponibles from './getLogementsDisponibles';
+import afficherLogements from './fonctions/components/afficherLogements';
+import obtenirDateActuelle from './fonctions/utils/obtenirDateActuelle';
+import Year from './class/year';
+import displayCalendar from './fonctions/components/displayCalendar';
+import convertMoisEnLettre from './fonctions/utils/convertMoisEnLettre';
+import turnLeft from './fonctions/components/turnLeft';
+import turnRight from './fonctions/components/turnRight';
+import convertMoisLettreEnInt from './fonctions/utils/convertMoisLettreEnInt';
+import reglageAgenda from './fonctions/components/reglageAgenda';
 
-//peut être mettre isSearched dans le ls
+import logements from './data/logements';
+import getLogementsDisponibles from './fonctions/utils/getLogementsDisponibles';
+import getPageName from "../js/fonctions/utils/getPageName";
+import accueil from "./pages/accueil";
+import focus from "./pages/focus";
+
 let isSearched = false;
 //Transfert des logements dans le localStorage si le localStorage est vide
 let localStorageLogements = JSON.parse(localStorage.getItem('logements'));
 if (localStorageLogements === undefined || localStorageLogements === null) {
 	localStorage.setItem('logements', JSON.stringify(logements));
 }
+let depart = true;
+let arrivee = false;
+let startTime = [0, 0, 0]; // date-month-year
+let endTime = [32, 13, 3000];
 
-if (document.title === 'Accueil') {
-	afficherLogements(logements, isSearched);
+// ROUTAGE
+let pageName = getPageName();
+console.log(pageName);
+switch (pageName) {
+	case 'index':
+		console.log(pageName);
+		accueil();
+		break;
+	case '':
+		accueil();
+		break;
+	case 'focus':
+		focus(startTime,endTime,logements);
+		break;
+	default:
+		console.error('Page introuvable');
 }
+
 
 // OBTENTION DE LA DATE
 let dateActuelle = obtenirDateActuelle();
@@ -95,10 +114,7 @@ document.addEventListener('click', (event) => {
 	}
 });
 
-let depart = true;
-let arrivee = false;
-let startTime = [0, 0, 0]; // date-month-year
-let endTime = [32, 13, 3000];
+
 
 // RECHERCHE DANS LE CALENDRIER SELON PLAGE
 document.addEventListener('click', (event) => {
@@ -201,55 +217,7 @@ document.addEventListener('click', (event) => {
 	}
 });
 
-if (document.title === 'Focus') {
-	let id = getUrl();
-	let objectDate = JSON.parse(localStorage.getItem('date'));
-	startTime = objectDate.start;
-	endTime = objectDate.end;
-	afficherLogementFocus(logements, id, startTime, endTime);
-	document.addEventListener('click', (event) => {
-		if (event.target.id === 'btn-louer') {
-			if (JSON.stringify(startTime) === JSON.stringify([0, 0, 0])) {
-				alert('choisir une date de départ');
-				return;
-			}
-			if (JSON.stringify(endTime) == JSON.stringify([32, 13, 3000])) {
-				alert("Choisir une date d'arrivée");
-				return;
-			}
-			let localStorageLogements = JSON.parse(
-				localStorage.getItem('logements')
-			);
-			for (let i = 0; i < localStorageLogements.length; i++) {
-				if (localStorageLogements[i].id === id) {
-					localStorageLogements[i].reservation.push({
-						arrivee: [
-							{
-								date: startTime[0],
-								month: startTime[1],
-								year: startTime[2],
-							},
-						],
-						depart: [
-							{
-								date: endTime[0],
-								month: endTime[1],
-								year: endTime[2],
-							},
-						],
-					});
-					startTime = [0, 0, 0];
-					endTime = [32, 13, 3000];
-					window.location.href = '../index.html';
-				}
-			}
-			localStorage.setItem(
-				'logements',
-				JSON.stringify(localStorageLogements)
-			);
-		}
-	});
-}
+
 
 document.addEventListener('click', (event) => {
 	if (event.target.classList.contains('close-calendar')) {
